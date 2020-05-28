@@ -17,8 +17,8 @@ public class CalcDischarge {
     public static Double calc(MetricParameterDTO metric, IndustryDTO industry, Integer count) {
         Double total;
 
-        Double windSpeed2Heigth = 3D;
-        Double windSpeed2 = metric.getWindSpeed() / 3;
+        Double windSpeed = metric.getWindSpeed();
+        Double windSpeedHeigth = 10D;
 
         Double y = getY(metric.getCoord(), industry.getCoord(), metric.getWindDeg());
         Double x = getX(metric.getCoord(), industry.getCoord(), y);
@@ -27,7 +27,7 @@ public class CalcDischarge {
 
         Double Xf = getXf(Fb);
 
-        Double Us = getUs(industry.getHeight(), windSpeed2, windSpeed2Heigth);
+        Double Us = getUs(industry.getHeight(), windSpeed, windSpeedHeigth);
 
         Double He = getHe(x, industry.getHeight(), Fb, Xf, Us);
 
@@ -36,7 +36,7 @@ public class CalcDischarge {
 
         Double Q = getQ(20L * 60L, industry.getAvgDisch());
         Double K = getK();
-        Double V = getV(industry.getHeight(), He, sigmZ, windSpeed2, 1);
+        Double V = getV(industry.getHeight(), He, sigmZ, windSpeed, 1);
 
         total = Q * K * V;
 
