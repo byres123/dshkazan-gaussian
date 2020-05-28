@@ -52,26 +52,31 @@ public class ImportExcel {
         for (Row row: sheet) {
             if(++i < 3) continue;
 
-            Date time = row.getCell(1).getDateCellValue();
-            Double deg = row.getCell(1 + params.size() * 2 + 3).getNumericCellValue();
-            Double speed = row.getCell(1 + params.size() * 2 + 6).getNumericCellValue();
-            Double temperature = row.getCell(1 + params.size() * 2 + 8).getNumericCellValue();
+            try {
+                Date time = row.getCell(1).getDateCellValue();
+                Double deg = row.getCell(1 + params.size() * 2 + 3).getNumericCellValue();
+                Double speed = row.getCell(1 + params.size() * 2 + 6).getNumericCellValue();
+                Double temperature = row.getCell(1 + params.size() * 2 + 8).getNumericCellValue();
 
-            int j = 2;
-            for (Map<String,Object> param : params) {
-                MetricParameterDTO metric = new MetricParameterDTO();
-                metric.setWatcher(pointName);
-                metric.setParameter((String) param.get("name"));
-                metric.setCoord(coords);
-                metric.setTime(time);
-                metric.setValue(row.getCell(j).getNumericCellValue());
-                metric.setWindSpeed(speed);
-                metric.setAirTemperature(temperature);
-                metric.setWindDeg(deg);
-                metric.setPdk((Double) param.get("value"));
-                list.add(metric);
-                j += 2;
+                int j = 2;
+                for (Map<String,Object> param : params) {
+                    MetricParameterDTO metric = new MetricParameterDTO();
+                    metric.setWatcher(pointName);
+                    metric.setParameter((String) param.get("name"));
+                    metric.setCoord(coords);
+                    metric.setTime(time);
+                    metric.setValue(row.getCell(j).getNumericCellValue());
+                    metric.setWindSpeed(speed);
+                    metric.setAirTemperature(temperature);
+                    metric.setWindDeg(deg < 0 ? deg + 360 : deg);
+                    metric.setPdk((Double) param.get("value"));
+                    list.add(metric);
+                    j += 2;
+                }
+            } catch (Exception e) {
+                continue;
             }
+
         }
 
 //        for (Row row : sheet) {
