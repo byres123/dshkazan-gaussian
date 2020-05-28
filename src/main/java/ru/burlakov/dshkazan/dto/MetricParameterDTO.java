@@ -5,18 +5,22 @@ import java.util.Date;
 
 public class MetricParameterDTO {
 
-    private String name = "АСКЗА-1";
-    private String parameter = "Параметр 1";
-    private Double[] coord = new Double[]{55.74309, 49.17876};
+    private String watcher;
+    private String parameter;
+    private Double[] coord;
     private Date time;
     private Double value;
-    private Double windSpeed = 2.5;
-    private Double airTemperature = -17D;
-    private Double windDeg = 65D;
-    private Double pdk = 0.4;
+    private Double windSpeed;
+    private Double airTemperature;
+    private Double windDeg;
+    private Double pdk;
 
-    public String getName() {
-        return name;
+    public String getWatcher() {
+        return watcher;
+    }
+
+    public void setWatcher(String watcher) {
+        this.watcher = watcher;
     }
 
     public String getParameter() {
@@ -25,10 +29,6 @@ public class MetricParameterDTO {
 
     public void setParameter(String parameter) {
         this.parameter = parameter;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double[] getCoord() {

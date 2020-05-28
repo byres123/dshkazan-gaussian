@@ -36,7 +36,7 @@ public class ImportExcel {
 
             if(!paramName.contains("Параметр")) continue;
 
-            paramName = paramName.replace("Параметр", "Parameter");
+            paramName = paramName.replace("Параметр", "Parameter").trim();
 
             HashMap<String, Object> param = new HashMap<>();
             String value = header2.getCell(i).getStringCellValue();
@@ -60,7 +60,7 @@ public class ImportExcel {
             int j = 2;
             for (Map<String,Object> param : params) {
                 MetricParameterDTO metric = new MetricParameterDTO();
-                metric.setName(pointName);
+                metric.setWatcher(pointName);
                 metric.setParameter((String) param.get("name"));
                 metric.setCoord(coords);
                 metric.setTime(time);

@@ -3,12 +3,12 @@ package ru.burlakov.dshkazan.dto;
 public class IndustryDTO {
 
     private String name;
-    private Double[] coord = new Double[]{55.798551,49.106324};
-    private Double height = 116.43;
-    private Double outDiameter = 1.0;
-    private Double outSpeed = 24.07;
-    private Double avgDisch = 2.82;
-    private Double outTemperature = 15.75;
+    private Double[] coord;
+    private Double height;
+    private Double outDiameter;
+    private Double outSpeed;
+    private Double avgDisch;
+    private Double outTemperature;
 
     public String getName() {
         return name;

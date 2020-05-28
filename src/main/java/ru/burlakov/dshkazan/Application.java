@@ -3,50 +3,37 @@ package ru.burlakov.dshkazan;
 import ru.burlakov.dshkazan.dto.ExcessDTO;
 import ru.burlakov.dshkazan.dto.IndustryDTO;
 import ru.burlakov.dshkazan.dto.MetricParameterDTO;
-import ru.burlakov.dshkazan.utill.CalcDischarge;
-import ru.burlakov.dshkazan.utill.ExportExcess;
-import ru.burlakov.dshkazan.utill.ImportExcel;
-import ru.burlakov.dshkazan.utill.ImportIndustry;
+import ru.burlakov.dshkazan.utill.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Application {
+
+    private final static Map<String,String> watchers = new HashMap<String,String>(){
+        {
+            put("АСКЗА-1", "static/data_all/2016/АСКЗА-1/АСКЗА-1 04.2016.xlsx");
+            put("АСКЗА-2", "static/data_all/2016/АСКЗА-2/АСКЗА-2 04.2016.xlsx");
+            put("АСКЗА-3", "static/data_all/2016/АСКЗА-3/АСКЗА-3 04.2016.xlsx");
+            put("АСКЗА-4", "static/data_all/2016/АСКЗА-4/АСКЗА-4 04.2016.xlsx");
+        }
+    };
+
     public static void main(String[] args) throws IOException {
-
-        List<MetricParameterDTO> metrics = ImportExcel.importExcel("АСКЗА-1", "static/data_all/2016/АСКЗА-1/АСКЗА-1 01.2016.xlsx", new Double[]{55.871370,48.903096});
-
-        List<IndustryDTO> industryList = ImportIndustry.importIndustry();
 
         List<ExcessDTO> excessList = new ArrayList<>();
 
-        int i = 0;
-        for (MetricParameterDTO metrica : metrics) {
-            for (IndustryDTO industry : industryList) {
-                i++;
-                if(metrica.getPdk() == null) continue;
-                if(metrica.getValue() == null) continue;
-                Double discharge = CalcDischarge.calc(metrica, industry, 1);
-                if(discharge > metrica.getPdk()) {
-                    ExcessDTO excess = new ExcessDTO();
-                    excess.setTime(metrica.getTime());
-                    excess.setIndustry(industry.getName());
-                    excess.setParameter(metrica.getParameter());
-                    excess.setPdk(metrica.getPdk());
-                    excess.setValue(discharge);
-                    excess.setCoord(industry.getCoord());
-                    excessList.add(excess);
-                }
-            }
+        Map<String,Double[]> allCoords = ImportWatcherCoords.importList();
+
+        for(String watcher : watchers.keySet()) {
+            List<MetricParameterDTO> metrics = ImportExcel.importExcel(watcher, watchers.get(watcher), allCoords.get(watcher));
+
+            List<IndustryDTO> industryList = ImportIndustry.importIndustry();
+
+            excessList.addAll(ExcessList.getList(metrics, industryList));
         }
 
-        ExportExcess.export("АСКЗА-1", excessList);
-
-
-        int a = i;
-
-        //        CalcDischarge.calc(new MetricParameterDTO(), new IndustryDTO(), 1);
+        ExportExcess.export("АСКЗА", excessList);
 
     }
 }

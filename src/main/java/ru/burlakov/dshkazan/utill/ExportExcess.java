@@ -20,13 +20,14 @@ import java.util.stream.Collectors;
 public class ExportExcess {
 
     public static void export(String name, List<ExcessDTO> list) throws IOException {
-//        writeExcel(name, list);
+        writeExcel(name, list);
         writeCSV(name, list);
     }
 
     public static void writeExcel(String name, List<ExcessDTO> list) throws IOException {
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet("default");
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Row headerRow = sheet.createRow(0);
 
@@ -51,19 +52,22 @@ public class ExportExcess {
         Cell ln = headerRow.createCell(6);
         ln.setCellValue("ln");
 
+        Cell zip = headerRow.createCell(7);
+        zip.setCellValue("zip");
+
+        Cell watcher = headerRow.createCell(8);
+        watcher.setCellValue("watcher");
+
+        Cell calcValue = headerRow.createCell(9);
+        calcValue.setCellValue("calcValue");
+
         int i = 0;
         for (ExcessDTO dto : list) {
-
-            if(i > 65534) {
-                book.write(new FileOutputStream(String.format("export/excess/%s.xls", name)));
-                book.close();
-                return;
-            }
 
             Row row = sheet.createRow(++i);
 
             Cell dataTime = row.createCell(0);
-            dataTime.setCellValue(dto.getTime().toString());
+            dataTime.setCellValue(formatter.format(dto.getTime()));
 
             Cell dataIndustry = row.createCell(1);
             dataIndustry.setCellValue(dto.getIndustry());
@@ -82,6 +86,15 @@ public class ExportExcess {
 
             Cell dataLn = row.createCell(6);
             dataLn.setCellValue(dto.getCoord()[1].toString());
+
+            Cell dataZip = row.createCell(7);
+            dataZip.setCellValue("470000");
+
+            Cell dataWatcher = row.createCell(8);
+            dataWatcher.setCellValue(dto.getWatcher());
+
+            Cell dataCalcValue = row.createCell(9);
+            dataCalcValue.setCellValue(dto.getCalcValue());
         }
 
         book.write(new FileOutputStream(String.format("export/excess/%s.xls", name)));
@@ -91,7 +104,7 @@ public class ExportExcess {
     public static void writeCSV(String name, List<ExcessDTO> list) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter(String.format("export/excess/%s.csv", name), false));
 
-        String[] header = new String[]{"time", "industry", "parameter", "pdk", "value", "lt", "ln", "zip"};
+        String[] header = new String[]{"time", "industry", "parameter", "pdk", "value", "lt", "ln", "zip", "watcher", "calcValue"};
 
         writer.writeNext(header);
 
@@ -106,7 +119,9 @@ public class ExportExcess {
                     dto.getValue().toString(),
                     dto.getCoord()[0].toString(),
                     dto.getCoord()[1].toString(),
-                    "470000"
+                    "470000",
+                    dto.getWatcher(),
+                    dto.getCalcValue().toString()
             });
         }
     }

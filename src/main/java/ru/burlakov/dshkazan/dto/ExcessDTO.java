@@ -10,6 +10,8 @@ public class ExcessDTO {
     Double pdk;
     Double value;
     Double[] coord;
+    String watcher;
+    Double calcValue;
 
     public Date getTime() {
         return time;
@@ -57,5 +59,21 @@ public class ExcessDTO {
 
     public void setCoord(Double[] coord) {
         this.coord = coord;
+    }
+
+    public String getWatcher() {
+        return watcher;
+    }
+
+    public void setWatcher(String watcher) {
+        this.watcher = watcher;
+    }
+
+    public Double getCalcValue() {
+        return calcValue;
+    }
+
+    public void setCalcValue(Double calcValue) {
+        this.calcValue = calcValue;
     }
 }
