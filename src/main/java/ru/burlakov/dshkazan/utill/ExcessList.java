@@ -28,6 +28,13 @@ public class ExcessList {
                     excess.setWatcher(metrica.getWatcher());
                     excess.setCalcValue(discharge);
                     excessList.add(excess);
+                } else {
+                    System.out.println("");
+                    System.out.println("====================================");
+                    System.out.println(String.format("ПДК: %s", metrica.getPdk()));
+                    System.out.println(String.format("discharge: %s",discharge));
+                    System.out.println(String.format("value: %s", metrica.getValue()));
+                    System.out.println("====================================");
                 }
             }
         }

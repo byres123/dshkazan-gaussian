@@ -6,6 +6,7 @@ import ru.burlakov.dshkazan.dto.MetricParameterDTO;
 import ru.burlakov.dshkazan.utill.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Application {
@@ -19,6 +20,8 @@ public class Application {
         }
     };
 
+    private final static LocalDate currentDate = LocalDate.of(2018, 3, 16);
+
     public static void main(String[] args) throws IOException {
 
         List<ExcessDTO> excessList = new ArrayList<>();
@@ -26,7 +29,7 @@ public class Application {
         Map<String,Double[]> allCoords = ImportWatcherCoords.importList();
 
         for(String watcher : watchers.keySet()) {
-            List<MetricParameterDTO> metrics = ImportExcel.importExcel(watcher, watchers.get(watcher), allCoords.get(watcher));
+            List<MetricParameterDTO> metrics = ImportExcel.importExcel(watcher, watchers.get(watcher), allCoords.get(watcher), null);
 
             List<IndustryDTO> industryList = ImportIndustry.importIndustry();
 

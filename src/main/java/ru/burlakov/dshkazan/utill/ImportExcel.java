@@ -10,13 +10,13 @@ import ru.burlakov.dshkazan.dto.MetricParameterDTO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class ImportExcel {
 
-    public static List<MetricParameterDTO> importExcel(String pointName, String path, Double[] coords) throws IOException {
+    public static List<MetricParameterDTO> importExcel(String pointName, String path, Double[] coords, LocalDate currentDate) throws IOException {
         List<MetricParameterDTO> list = new ArrayList<>();
 
         FileInputStream file = new FileInputStream(new File(path));
@@ -57,6 +57,12 @@ public class ImportExcel {
                 Double deg = row.getCell(1 + params.size() * 2 + 3).getNumericCellValue();
                 Double speed = row.getCell(1 + params.size() * 2 + 6).getNumericCellValue();
                 Double temperature = row.getCell(1 + params.size() * 2 + 8).getNumericCellValue();
+
+                if(currentDate != null) {
+                    LocalDate localDateFile = time.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if(localDateFile.getYear() != currentDate.getYear()) continue;
+                    if(localDateFile.getDayOfYear() != currentDate.getDayOfYear()) continue;
+                }
 
                 int j = 2;
                 for (Map<String,Object> param : params) {
