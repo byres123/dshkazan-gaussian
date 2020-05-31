@@ -24,5 +24,13 @@ public class CalcDischargeTest {
         Double discharge = CalcDischarge.calc(metric, industryDTO, 1);
 
         System.out.println(discharge);
+
+//        Double lengthA = CalcDischarge.getVectorLength(metric.getCoord(), industryDTO.getCoord());
+//        Double[] coordPoint = CalcDischarge.movePointTo(industryDTO.getCoord(), lengthA, 67D);
+//        Double lengthB = CalcDischarge.getVectorLength(metric.getCoord(), coordPoint);
+//
+//        System.out.println(String.format("x: %s - y: %s", coordPoint[0], coordPoint[1]));
+//
+//        System.out.println(CalcDischarge.getY(metric.getCoord(),industryDTO.getCoord(), 67D));
     }
 }

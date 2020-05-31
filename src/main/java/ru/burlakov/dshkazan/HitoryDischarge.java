@@ -7,9 +7,12 @@ import ru.burlakov.dshkazan.utill.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Application {
+public class HitoryDischarge {
 
     private final static Map<String,String> watchers = new HashMap<String,String>(){
         {
@@ -24,19 +27,13 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
 
-        List<ExcessDTO> excessList = new ArrayList<>();
-
         Map<String,Double[]> allCoords = ImportWatcherCoords.importList();
 
         for(String watcher : watchers.keySet()) {
             List<MetricParameterDTO> metrics = ImportExcel.importExcel(watcher, watchers.get(watcher), allCoords.get(watcher), currentDate);
-
-            List<IndustryDTO> industryList = ImportIndustry.importIndustry();
-
-            excessList.addAll(ExcessList.getList(metrics, industryList));
+            metrics = GetHistory.getList(metrics);
+            ExportHistory.exportHistory(watcher, metrics);
         }
-
-        ExportExcess.export("АСКЗА", excessList);
-
     }
+
 }
