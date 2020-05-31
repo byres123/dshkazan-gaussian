@@ -90,10 +90,10 @@ public class CalcDischarge {
 
         total = Math.sqrt(Math.pow(Math.max(lengthA, lengthB), 2) - Math.pow(Math.min(lengthA, lengthB), 2));
 
-        System.out.println(newPoint[0] + "," + newPoint[1]);
-        System.out.println(lengthA);
-        System.out.println(lengthB);
-        System.out.println(total);
+//        System.out.println(newPoint[0] + "," + newPoint[1]);
+//        System.out.println(lengthA);
+//        System.out.println(lengthB);
+//        System.out.println(total);
 
         return total;
 
