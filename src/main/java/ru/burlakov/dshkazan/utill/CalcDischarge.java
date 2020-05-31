@@ -86,9 +86,7 @@ public class CalcDischarge {
 
         Double lengthB = DistanceCalculator.distance(metricCoord[0], metricCoord[1], newPoint[0], newPoint[1]);
 
-        Double total;
-
-        total = Math.sqrt(Math.pow(Math.max(lengthA, lengthB), 2) - Math.pow(Math.min(lengthA, lengthB), 2));
+        Double total = Math.sqrt(Math.pow(Math.max(lengthA, lengthB), 2) - Math.pow(Math.min(lengthA, lengthB), 2));
 
 //        System.out.println(newPoint[0] + "," + newPoint[1]);
 //        System.out.println(lengthA);
