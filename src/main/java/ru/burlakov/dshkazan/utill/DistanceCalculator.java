@@ -7,6 +7,7 @@ public class DistanceCalculator {
         N
     }
 
+    // Kilometers
     public static double distance(double lat1, double lon1, double lat2, double lon2) {
         return distance(lat1, lon1, lat2, lon2, Unit.K);
     }

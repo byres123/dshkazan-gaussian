@@ -44,8 +44,6 @@ public class CalcDischarge {
 
         total *= Math.exp(-0.5 * Math.pow(y, 2) / Math.pow(sigmY, 2));
 
-        total /= 1000;
-
 //        System.out.println(x);
 //        System.out.println(y);
 //        System.out.println(total);
@@ -54,7 +52,7 @@ public class CalcDischarge {
     }
 
     public static Double getX(Double[] metricCoord, Double[] industryCoord, Double h) {
-        Double lengthA = DistanceCalculator.distance(metricCoord[0], metricCoord[1], industryCoord[0], industryCoord[1]);
+        Double lengthA = DistanceCalculator.distance(metricCoord[0], metricCoord[1], industryCoord[0], industryCoord[1]) * 1000;
         return Math.sqrt( Math.abs(Math.pow(lengthA, 2) - Math.pow(h, 2)) );
     }
 
@@ -80,11 +78,11 @@ public class CalcDischarge {
 //
 //        return S / lengthA / 2;
 
-        Double lengthA = DistanceCalculator.distance(metricCoord[0], metricCoord[1], industryCoord[0], industryCoord[1]);
+        Double lengthA = DistanceCalculator.distance(metricCoord[0], metricCoord[1], industryCoord[0], industryCoord[1]) * 1000;
 
         Double[] newPoint = movePointTo(industryCoord, windDeg, getVectorLength(metricCoord, industryCoord));
 
-        Double lengthB = DistanceCalculator.distance(metricCoord[0], metricCoord[1], newPoint[0], newPoint[1]);
+        Double lengthB = DistanceCalculator.distance(metricCoord[0], metricCoord[1], newPoint[0], newPoint[1]) * 1000;
 
         Double total = Math.sqrt(Math.pow(Math.max(lengthA, lengthB), 2) - Math.pow(Math.min(lengthA, lengthB), 2));
 
