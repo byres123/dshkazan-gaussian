@@ -10,12 +10,14 @@ import java.util.List;
 public class ExcessList {
     public static List<ExcessDTO> getList(List<MetricParameterDTO> metrics, List<IndustryDTO> industryList) {
         List<ExcessDTO> excessList = new ArrayList<>();
+        Integer morePdkCount = 0;
 
         for (MetricParameterDTO metrica : metrics) {
             if(metrica.getPdk() == null) continue;
             if(metrica.getValue() == null) continue;
             if(metrica.getValue() < metrica.getPdk()) continue;
             for (IndustryDTO industry : industryList) {
+                morePdkCount++;
                 Double discharge = CalcDischarge.calc(metrica, industry, 1);
                 if(discharge > metrica.getPdk()) {
                     ExcessDTO excess = new ExcessDTO();
@@ -38,6 +40,14 @@ public class ExcessList {
                 }
             }
         }
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("====================================");
+        System.out.println(String.format("Excess count: %s", excessList.size()));
+        System.out.println(String.format("Total metrics count: %s", metrics.size()));
+        System.out.println(String.format("Total > PDK count: %s", morePdkCount));
+        System.out.println("====================================");
 
         return excessList;
     }
